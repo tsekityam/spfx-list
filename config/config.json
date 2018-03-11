@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "sp-list-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/spList/SpListWebPart.js",
+          "manifest": "./src/webparts/spList/SpListWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "SpListWebPartStrings": "lib/webparts/spList/loc/{locale}.js"
+  }
+}
