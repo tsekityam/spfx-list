@@ -26,8 +26,7 @@
     "moment": "^2.21.0",
     "office-ui-fabric-react": "^5.62.1",
     "react": "15.6.2",
-    "react-dom": "15.6.2",
-    "sp-pnp-js": "^3.0.6"
+    "react-dom": "15.6.2"
   },
   "devDependencies": {
     "@microsoft/sp-build-web": "~1.4.1",

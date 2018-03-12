@@ -197,10 +197,6 @@
     es6-promise "^4.1.0"
     superagent "^3.5.2"
 
-"@microsoft/microsoft-graph-types@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@microsoft/microsoft-graph-types/-/microsoft-graph-types-1.1.0.tgz#08646e469247a4144c715161a1081387ade7cd3b"
-
 "@microsoft/node-core-library@0.3.16":
   version "0.3.16"
   resolved "https://registry.yarnpkg.com/@microsoft/node-core-library/-/node-core-library-0.3.16.tgz#cef3f30c0fcdd9f1af208b5cea15c22f377e7745"
@@ -759,10 +755,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/microsoft-ajax@*":
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/@types/microsoft-ajax/-/microsoft-ajax-0.0.33.tgz#5fb6694f9d5aa599839325334c2e9a0ba9b74774"
-
 "@types/mime@*":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
@@ -860,12 +852,6 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
-
-"@types/sharepoint@2013.1.9":
-  version "2013.1.9"
-  resolved "https://registry.yarnpkg.com/@types/sharepoint/-/sharepoint-2013.1.9.tgz#8be62a1b6dbfe0bf9dfc8e0fed125199a36fb60d"
-  dependencies:
-    "@types/microsoft-ajax" "*"
 
 "@types/sinon@1.16.34":
   version "1.16.34"
@@ -9134,13 +9120,6 @@ source-map@~0.2.0:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.2.0.tgz#dab73fbcfc2ba819b4de03bd6f6eaa48164b3f9d"
   dependencies:
     amdefine ">=0.0.4"
-
-sp-pnp-js@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/sp-pnp-js/-/sp-pnp-js-3.0.6.tgz#ec561f68d536882f76ef4b99ba37d43e083295b6"
-  dependencies:
-    "@microsoft/microsoft-graph-types" "1.1.0"
-    "@types/sharepoint" "2013.1.9"
 
 sparkles@^1.0.0:
   version "1.0.0"
