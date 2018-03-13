@@ -107,7 +107,7 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
       onDismiss={this.props.onDismiss}
       onRenderFooterContent={this._onRenderFooterContent}
     >
-          {components}
+      {components}
     </Panel>;
   }
 
@@ -159,7 +159,7 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
     }
   }
 
-  
+
   private _getComponentByField(field: ISpField): JSX.Element {
     switch (field.TypeAsString) {
       case "Currency":
