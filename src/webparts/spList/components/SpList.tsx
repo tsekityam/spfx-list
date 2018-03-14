@@ -259,7 +259,10 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
 
   @autobind
   private _onCloseEditPanel(): void {
-    this.setState({ showEditPanel: false });
+    this.setState({ 
+      showEditPanel: false,
+      formItem: {}
+    });
   }
 
   @autobind
@@ -276,9 +279,6 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
   @autobind
   private _onSaved(): void {
     this._updateListItems(this.props);
-    this.setState({
-      formItem: {}
-    });
   }
 
   @autobind
