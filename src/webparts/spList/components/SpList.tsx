@@ -38,7 +38,6 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
       hideDeleteDialog: true,
       showEditPanel: false,
       formItem: undefined,
-      editFormErrors: {}
     };
   }
 
@@ -291,7 +290,6 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
         formItem: (this._selection.getSelection()[0] as ISpItem)
       }, () => {
         this.setState({
-          editFormErrors: {},
           showEditPanel: true
         });
       });
@@ -300,7 +298,6 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
         formItem: undefined
       }, () => {
         this.setState({
-          editFormErrors: {},
           showEditPanel: true
         });
       });

@@ -8,5 +8,4 @@ export interface ISpListState {
   hideDeleteDialog: boolean;
   showEditPanel: boolean;
   formItem: ISpItem;
-  editFormErrors: {}; // error message of each components in the form
 }
