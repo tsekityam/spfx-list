@@ -41,9 +41,9 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
         <SpGrid
           items={this.state.items}
           fields={this.state.fields}
-          onItemInvoked={() => { }}
           onDeleteSelectedItems={this.onDeleteSelectedItems}
           onShowEditingPanel={this._onShowEditingPanel}
+          onItemInvoked={this._showEditingPanel}
         />
         <SpForm
           fields={this.state.fields}
