@@ -139,21 +139,11 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
     });
 
     if (canSave) {
-      if (this.props.formItem === undefined) {
-        // add an item to the list
-        sp.web.lists.getById(this.props.list).items.add(formItem).then((iar: ItemAddResult) => {
-          this.props.onSaved();
-        }).catch((error: any) => {
-          console.log(error);
-        });
-      } else {
-        // update item in the list
-        sp.web.lists.getById(this.props.list).items.getById(this.state.formItem.Id).update(formItem).then((iar: ItemAddResult) => {
-          this.props.onSaved();
-        }).catch((error: any) => {
-          console.log(error);
-        });
-      }
+      this.props.onSave(formItem, this.props.formItem).then((iar: ItemAddResult) => {
+        this.props.onSaved();
+      }).catch((error: any) => {
+        console.log(error);
+      });
 
       this.props.onDismiss();
     }

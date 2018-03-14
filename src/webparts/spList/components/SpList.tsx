@@ -6,7 +6,7 @@ import { ISpField } from '../../../interfaces/ISpField';
 import { ISpItem } from '../../../interfaces/ISpItem';
 var moment = require('moment');
 
-import { sp } from "@pnp/sp";
+import { sp, ItemAddResult } from "@pnp/sp";
 import {
   DetailsList,
   DetailsListLayoutMode,
@@ -52,7 +52,7 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
           showEditPanel={this.state.showEditPanel}
           onDismiss={this._onCloseEditPanel}
           formItem={this.state.formItem}
-          list={this.props.list}
+          onSave={this._onSaveItemForm}
           onSaved={this._onSaved}
         />
       </div>
@@ -261,6 +261,17 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
   @autobind
   private _onCloseEditPanel(): void {
     this.setState({ showEditPanel: false });
+  }
+
+  @autobind
+  private _onSaveItemForm(formItem: ISpItem, oldFormItem: ISpItem): Promise<ItemAddResult> {
+    if (oldFormItem === undefined) {
+      // add an item to the list
+      return sp.web.lists.getById(this.props.list).items.add(formItem);
+    } else {
+      // update item in the list
+      return sp.web.lists.getById(this.props.list).items.getById(oldFormItem.Id).update(formItem);
+    }
   }
 
   @autobind
