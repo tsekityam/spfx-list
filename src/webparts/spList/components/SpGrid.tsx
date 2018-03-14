@@ -41,8 +41,9 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
   public render(): React.ReactElement<ISpGridProps> {
     return (
       <div>
-        {this.getDetailList()}
-        {this.getDeleteDialog()}
+        {this._getDetailList()}
+        {this._getDeleteDialog()}
+        {this._getEditPanel()}
       </div>
     );
   }
@@ -50,7 +51,7 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
   public componentWillReceiveProps() {
   }
 
-  private getDetailList() {
+  private _getDetailList() {
     return <div>
       <CommandBar
         isSearchBoxVisible={false}
@@ -70,18 +71,10 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
           onItemInvoked={this._showEditingPanel}
         />
       </MarqueeSelection>
-      <SpForm
-          fields={this.props.fields}
-          showEditPanel={this.state.showEditPanel}
-          onDismiss={this._onCloseEditPanel}
-          item={this.state.formItem}
-          onSave={this.props.onSave}
-          onSaved={this._onSaved}
-        />
     </div>;
   }
 
-  private getDeleteDialog() {
+  private _getDeleteDialog() {
     return <Dialog
       hidden={this.state.hideDeleteDialog}
       onDismiss={this._closeDeleteDialog}
@@ -101,23 +94,22 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
     </Dialog>;
   }
 
-  private _getColumns(): IColumn[] {
-    var columns: IColumn[] = [];
-
-    this.props.fields.map((item: ISpField, index: number) => {
-      columns.push({
-        key: item.Id,
-        name: item.Title,
-        fieldName: item.InternalName,
-        minWidth: 100,
-        maxWidth: 200,
-        isResizable: true,
-        ariaLabel: item.Description
-      });
-    });
-
-    return columns;
+  private _getEditPanel() {
+    return (
+      <SpForm
+          fields={this.props.fields}
+          showEditPanel={this.state.showEditPanel}
+          onDismiss={this._onCloseEditPanel}
+          item={this.state.formItem}
+          onSave={this.props.onSave}
+          onSaved={this._onSaved}
+        />
+    );
   }
+
+  /*
+   * Grid related
+   */
 
   private _getCommandBarItems(): IContextualMenuItem[] {
     var items: IContextualMenuItem[] = [];
@@ -166,14 +158,23 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
 
     return items;
   }
+  
+  private _getColumns(): IColumn[] {
+    var columns: IColumn[] = [];
 
-  private _getDeleteDialogTitle(): string {
-    switch (this._selection.getSelectedCount()) {
-      case 1:
-        return `Delete ${(this._selection.getSelection()[0] as ISpItem).Title}?`;
-      default:
-        return "Delete?";
-    }
+    this.props.fields.map((item: ISpField, index: number) => {
+      columns.push({
+        key: item.Id,
+        name: item.Title,
+        fieldName: item.InternalName,
+        minWidth: 100,
+        maxWidth: 200,
+        isResizable: true,
+        ariaLabel: item.Description
+      });
+    });
+
+    return columns;
   }
 
   private _getSelectionDetails(): string {
@@ -198,13 +199,26 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
   }
 
   @autobind
-  private _closeDeleteDialog() {
-    this.setState({ hideDeleteDialog: true });
+  private _cancelSelection() {
+    this._selection.setAllSelected(false);
+  }
+
+  /*
+   *  Delete Dialog related
+   */
+
+  private _getDeleteDialogTitle(): string {
+    switch (this._selection.getSelectedCount()) {
+      case 1:
+        return `Delete ${(this._selection.getSelection()[0] as ISpItem).Title}?`;
+      default:
+        return "Delete?";
+    }
   }
 
   @autobind
-  private _cancelSelection() {
-    this._selection.setAllSelected(false);
+  private _closeDeleteDialog() {
+    this.setState({ hideDeleteDialog: true });
   }
 
   @autobind
@@ -219,6 +233,10 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
       this._closeDeleteDialog();
     });
   }
+
+  /*
+   *  Edit Panel related
+   */
 
   @autobind
   private _showEditingPanel(selectedItem?: ISpItem): void {
