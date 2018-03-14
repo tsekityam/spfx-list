@@ -21,6 +21,8 @@ import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 
+import SpForm from './SpForm';
+
 export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> {
   private _selection: Selection = new Selection({
     onSelectionChanged: () => this.setState({ selectionDetails: this._getSelectionDetails() })
@@ -31,6 +33,8 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
     this.state = {
       hideDeleteDialog: true,
       selectionDetails: this._getSelectionDetails(),
+      showEditPanel: false,
+      formItem: undefined,
     };
   }
 
@@ -63,9 +67,17 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
           selectionMode={SelectionMode.multiple}
           ariaLabelForSelectionColumn='Toggle selection'
           ariaLabelForSelectAllCheckbox='Toggle selection for all items'
-          onItemInvoked={this.props.onItemInvoked}
+          onItemInvoked={this._showEditingPanel}
         />
       </MarqueeSelection>
+      <SpForm
+          fields={this.props.fields}
+          showEditPanel={this.state.showEditPanel}
+          onDismiss={this._onCloseEditPanel}
+          item={this.state.formItem}
+          onSave={this.props.onSave}
+          onSaved={this._onSaved}
+        />
     </div>;
   }
 
@@ -170,13 +182,13 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
 
   @autobind
   private _addItem() {
-    this.props.onShowEditingPanel();
+    this._showEditingPanel();
   }
 
   @autobind
   private _editItem() {
     if (this._selection.getSelectedCount() === 1) {
-      this.props.onShowEditingPanel(this._selection.getSelection()[0] as ISpItem);
+      this._showEditingPanel(this._selection.getSelection()[0] as ISpItem);
     }
   }
 
@@ -206,5 +218,39 @@ export default class SpGrid extends React.Component<ISpGridProps, ISpGridState> 
     this.props.onDeleteSelectedItems(selectedItems).then(() => {
       this._closeDeleteDialog();
     });
+  }
+
+  @autobind
+  private _showEditingPanel(selectedItem?: ISpItem): void {
+    if (selectedItem) {
+      this.setState({
+        formItem: (selectedItem)
+      }, () => {
+        this.setState({
+          showEditPanel: true
+        });
+      });
+    } else {
+      this.setState({
+        formItem: undefined
+      }, () => {
+        this.setState({
+          showEditPanel: true
+        });
+      });
+    }
+  }
+
+  @autobind
+  private _onCloseEditPanel(): void {
+    this.setState({
+      showEditPanel: false,
+      formItem: {}
+    });
+  }
+
+  @autobind
+  private _onSaved(): void {
+    this.props.onRefreshItems();
   }
 }

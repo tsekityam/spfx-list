@@ -21,7 +21,6 @@ import { autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 
-import SpForm from './SpForm';
 import SpGrid from './SpGrid';
 
 export default class SpList extends React.Component<ISpListProps, ISpListState> {
@@ -30,8 +29,6 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
     this.state = {
       fields: [],
       items: [],
-      showEditPanel: false,
-      formItem: undefined,
     };
   }
 
@@ -41,17 +38,9 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
         <SpGrid
           items={this.state.items}
           fields={this.state.fields}
-          onItemInvoked={this._showEditingPanel}
           onDeleteSelectedItems={this._deleteItems}
-          onShowEditingPanel={this._showEditingPanel}
-        />
-        <SpForm
-          fields={this.state.fields}
-          showEditPanel={this.state.showEditPanel}
-          onDismiss={this._onCloseEditPanel}
-          item={this.state.formItem}
+          onRefreshItems={this._onRefreshItems}
           onSave={this._onSaveItemForm}
-          onSaved={this._onSaved}
         />
       </div>
     );
@@ -99,27 +88,6 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
   }
 
   @autobind
-  private _showEditingPanel(selectedItem?: ISpItem): void {
-    if (selectedItem) {
-      this.setState({
-        formItem: (selectedItem)
-      }, () => {
-        this.setState({
-          showEditPanel: true
-        });
-      });
-    } else {
-      this.setState({
-        formItem: undefined
-      }, () => {
-        this.setState({
-          showEditPanel: true
-        });
-      });
-    }
-  }
-
-  @autobind
   private _deleteItems(items: ISpItem[]) {
     let list = sp.web.lists.getById(this.props.list);
 
@@ -135,14 +103,6 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
   }
 
   @autobind
-  private _onCloseEditPanel(): void {
-    this.setState({
-      showEditPanel: false,
-      formItem: {}
-    });
-  }
-
-  @autobind
   private _onSaveItemForm(formItem: ISpItem, oldFormItem: ISpItem): Promise<ItemAddResult> {
     if (oldFormItem === undefined) {
       // add an item to the list
@@ -154,7 +114,7 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
   }
 
   @autobind
-  private _onSaved(): void {
+  private _onRefreshItems(): void {
     this._updateListItems(this.props);
   }
 }
