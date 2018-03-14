@@ -41,9 +41,9 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
         <SpGrid
           items={this.state.items}
           fields={this.state.fields}
-          onDeleteSelectedItems={this.onDeleteSelectedItems}
-          onShowEditingPanel={this._onShowEditingPanel}
           onItemInvoked={this._showEditingPanel}
+          onDeleteSelectedItems={this._deleteItems}
+          onShowEditingPanel={this._showEditingPanel}
         />
         <SpForm
           fields={this.state.fields}
@@ -99,7 +99,7 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
   }
 
   @autobind
-  private _onShowEditingPanel(selectedItem?: ISpItem): void {
+  private _showEditingPanel(selectedItem?: ISpItem): void {
     if (selectedItem) {
       this.setState({
         formItem: (selectedItem)
@@ -120,12 +120,12 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
   }
 
   @autobind
-  private onDeleteSelectedItems(selectedItems: ISpItem[]) {
+  private _deleteItems(items: ISpItem[]) {
     let list = sp.web.lists.getById(this.props.list);
 
     let batch = sp.web.createBatch();
 
-    selectedItems.map((item, index) => {
+    items.map((item, index) => {
       list.items.getById(item.Id).inBatch(batch).delete().then(_ => { });
     });
 
