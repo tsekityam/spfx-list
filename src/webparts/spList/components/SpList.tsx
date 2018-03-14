@@ -51,7 +51,7 @@ export default class SpList extends React.Component<ISpListProps, ISpListState> 
           fields={this.state.fields}
           showEditPanel={this.state.showEditPanel}
           onDismiss={this._onCloseEditPanel}
-          formItem={this.state.formItem}
+          item={this.state.formItem}
           onSave={this._onSaveItemForm}
           onSaved={this._onSaved}
         />

@@ -78,7 +78,7 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
   constructor(props: any) {
     super(props);
     this.state = {
-      formItem: this.props.formItem === undefined ? {} : this.props.formItem,
+      item: this.props.item === undefined ? {} : this.props.item,
       editFormErrors: {},
     };
   }
@@ -86,10 +86,10 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
   public render(): React.ReactElement<ISpFormProps> {
     var headerText = "";
 
-    if (this.props.formItem === undefined) {
+    if (this.props.item === undefined) {
       headerText = "New Item";
     } else {
-      headerText = `Edit ${this.props.formItem.Title}`;
+      headerText = `Edit ${this.props.item.Title}`;
     }
 
 
@@ -113,7 +113,7 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
 
   public componentWillReceiveProps() {
     this.state = {
-      formItem: this.props.formItem === undefined ? {} : this.props.formItem,
+      item: this.props.item === undefined ? {} : this.props.item,
       editFormErrors: {},
     };
   }
@@ -124,22 +124,22 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
     var canSave: boolean = true;
     var editFormErrors: {} = {};
     this.props.fields.map((field, index) => {
-      var error = this._validate(this.state.formItem[field.InternalName], field);
+      var error = this._validate(this.state.item[field.InternalName], field);
       editFormErrors[field.InternalName] = error;
       canSave = canSave && stringIsNullOrEmpty(error);
     });
 
     this.setState({ editFormErrors: editFormErrors });
 
-    var formItem = {};
-    console.log(this.state.formItem);
+    var item = {};
+    console.log(this.state.item);
 
     this.props.fields.map((field, index) => {
-      formItem[field.InternalName] = this.state.formItem[field.InternalName];
+      item[field.InternalName] = this.state.item[field.InternalName];
     });
 
     if (canSave) {
-      this.props.onSave(formItem, this.props.formItem).then((iar: ItemAddResult) => {
+      this.props.onSave(item, this.props.item).then((iar: ItemAddResult) => {
         this.props.onSaved();
       }).catch((error: any) => {
         console.log(error);
@@ -164,7 +164,7 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
             onChanged={(value) => { return this._onValueChanged(value, field); }}
             validateOnFocusOut={true}
             validateOnLoad={false}
-            value={this.state.formItem[field.InternalName]}
+            value={this.state.item[field.InternalName]}
           />
         );
       case "DateTime":
@@ -192,7 +192,7 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
             errorMessage={this.state.editFormErrors[field.InternalName]}
             validateOnFocusOut={true}
             validateOnLoad={false}
-            value={this.state.formItem[field.InternalName]}
+            value={this.state.item[field.InternalName]}
           />
         );
       case "Text":
@@ -206,7 +206,7 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
             errorMessage={this.state.editFormErrors[field.InternalName]}
             validateOnFocusOut={true}
             validateOnLoad={false}
-            value={this.state.formItem[field.InternalName]}
+            value={this.state.item[field.InternalName]}
           />
         );
       default:
@@ -239,11 +239,11 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
   }
 
   private _onValueChanged(value: any, field: ISpField) {
-    var formItem = this.state.formItem;
-    formItem[field.InternalName] = value;
+    var item = this.state.item;
+    item[field.InternalName] = value;
     this.setState({
-      formItem: formItem
-    }, () => { console.log(this.state.formItem); });
+      item: item
+    }, () => { console.log(this.state.item); });
   }
 
   private _validate(value: string, field: ISpField): string {
@@ -264,7 +264,7 @@ export default class SpForm extends React.Component<ISpFormProps, ISpFormState> 
   }
 
   private _getDateOfField(field: ISpField) {
-    var value: any = this.state.formItem[field.InternalName];
+    var value: any = this.state.item[field.InternalName];
 
     if (typeof value === "string") {
       return moment(value).toDate();

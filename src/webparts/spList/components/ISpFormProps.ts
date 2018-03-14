@@ -5,8 +5,8 @@ import { ItemAddResult } from "@pnp/sp";
 export interface ISpFormProps {
   fields: ISpField[];
   showEditPanel: boolean;
-  formItem?: ISpItem;
+  item?: ISpItem;
   onDismiss: () => void;
-  onSave: (formItem: ISpItem, oldFformItem: ISpItem) => Promise<ItemAddResult>;
+  onSave: (item: ISpItem, oldItem: ISpItem) => Promise<ItemAddResult>;
   onSaved?: () => void;
 }
